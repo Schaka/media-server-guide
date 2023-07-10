@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Berlin
+    volumes:
+      - /srv/mergerfs/config/appdata/radarr:/config
+      - /srv/mergerfs/pool/share_media:/data
+    ports:
+      - 7878:7878
+    networks:
+      - htpc  
+    restart: unless-stopped
+    
+networks:
+  htpc:
+    external: true

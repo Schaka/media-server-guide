@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Berlin
+    volumes:
+      - /srv/mergerfs/config/appdata/sonarr:/config
+      - /srv/mergerfs/pool/share_media:/data
+    ports:
+      - 8989:8989
+    networks:
+      - htpc
+    restart: unless-stopped
+    
+networks:
+  htpc:
+    external: true

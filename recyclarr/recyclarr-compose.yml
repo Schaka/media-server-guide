@@ -1,0 +1,19 @@
+---
+# https://recyclarr.dev/wiki/installation/
+version: '2.1'
+services:
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    init: true
+    user: 998:100
+    volumes:
+      - /srv/mergerfs/config/appdata/recyclarr:/config
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - htpc
+
+networks:
+  htpc:
+    external: true

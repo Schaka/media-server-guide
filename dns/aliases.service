@@ -1,0 +1,13 @@
+[Unit]
+Description=Publish aliases for local media server
+Wants=network-online.target
+After=network-online.target
+BindsTo=sys-subsystem-net-devices-enp0s31f6.device
+Requires=avahi-daemon.service
+
+[Service]
+Type=forking
+ExecStart=/srv/mergerfs/config/appdata/aliases.sh
+
+[Install]
+WantedBy=multi-user.target

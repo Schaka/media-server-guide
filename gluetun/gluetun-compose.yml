@@ -1,0 +1,34 @@
+---
+# Example from: https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/airvpn.md
+version: "3"
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN 
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Berlin
+      - VPN_SERVICE_PROVIDER=airvpn
+      - VPN_TYPE=openvpn
+      - SERVER_COUNTRIES=Netherlands
+      - FIREWALL_VPN_INPUT_PORTS=57786
+     volumes:
+      - /srv/mergerfs/config/appdata/gluetun:/gluetun
+     ports:
+      - 8080:8080 # SABnzbd WEB GUI
+      - 8081-8085:8081-8085 # qBittorrent WEB GUI
+      - 6881-6885:6881-6885/udp
+      - 6881-6885:6881-6885
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+     networks:
+      - htpc
+     restart: unless-stopped
+     
+networks:
+  htpc:
+    external: true     

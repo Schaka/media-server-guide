@@ -1,0 +1,17 @@
+---
+# https://hub.docker.com/r/linuxserver/sabnzbd
+version: "2.1"
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    network_mode: "container:gluetun"
+    container_name: sabnzbd
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Berlin
+    volumes:
+      - /srv/mergerfs/config/appdata/sabnzbd:/config
+      - /srv/mergerfs/pool/share_media/:/data #optional
+      - /srv/mergerfs/pool/share_media/incomplete:/incomplete-downloads #optional
+    restart: unless-stopped

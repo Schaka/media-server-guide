@@ -1,0 +1,23 @@
+---
+version: "2.1"
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Berlin
+    volumes:
+      - /srv/mergerfs/config/appdata/bazarr:/config
+      - /srv/mergerfs/pool/share_media/media/movies:/movies #optional
+      - /srv/mergerfs/pool/share_media/media/tv:/tv #optional
+    ports:
+      - 6767:6767
+    networks:
+      - htpc  
+    restart: unless-stopped
+
+networks:
+  htpc:
+    external: true
