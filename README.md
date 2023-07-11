@@ -317,15 +317,16 @@ Password: changeme
 You can now add a proxy host. Add domain `media-pc.local` and add port forward 180. For the forward host, you can add `media-pc.local` again. This will forward port 80 to 180. After saving, you should be able to access your server via `http://media-pc.local` again.
 
 You may now add entries for all the other aliases.
-- sonarr.local forward to host media-pc.local with port 8989
-- radarr.local forward to host media-pc.local with port 7878
-- prowlarr.local forward to host media-pc.local with port 9696
-- bazarr.local forward to host media-pc.local with port 6767
-- qbittorrent.local forward to host media-pc.local with port 8082
-- catalog.local forward to host media-pc.local with port 5055 for jellyseerr
-- tv.local forward to host media-pc.local with port 8096 for jellyfin
+- sonarr.local forward to host sonarr with port 8989
+- radarr.local forward to host radarr with port 7878
+- prowlarr.local forward to host prowlarr with port 9696
+- bazarr.local forward to host bazarr with port 6767
+- qbittorrent.local forward to gluetun with port 8082
+- catalog.local forward to host jellyseerr with port 5055
+- tv.local forward to host jellyfin with port 8096
 
-All your services should now be reachable via their respective names.
+All your services should now be reachable via their respective `<name>.local`. 
+**Note: Because nginx is accessing these services through the 'htpc' docker network, you could now remove port forwarding for individual containers, if you only want them reachable through HTTP behind your reverse proxy.**
 
 
 ### Honorable mentions and other things you might want to look into
