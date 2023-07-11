@@ -333,7 +333,7 @@ You may now add entries for all the other aliases.
 - tv.local forward to host jellyfin with port 8096
 
 All your services should now be reachable via their respective `<name>.local`. 
-**Note: Because nginx is accessing these services through the 'htpc' docker network, you could now remove port forwarding for individual containers, if you only want them reachable through HTTP behind your reverse proxy.**
+**Note:** Because nginx is accessing these services through the 'htpc' docker network, you could now remove port forwarding for individual containers, if you only want them reachable through HTTP behind your reverse proxy.
 
 
 ### Honorable mentions and other things you might want to look into
