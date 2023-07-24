@@ -107,7 +107,7 @@ Technically, from this point on you can place media files here and play them, if
 Radarr is next. Find the compose file and use it. You can find it under `http://<your-ip>:7878/`. Once it, go to movies and import existing movies. Choose `/data/media/movies` as per Jellyfin example above.
 
 ### Sonarr
-Radarr is next. Find the compose file and use it. You can find it under `http://<your-ip>:8989/`. Once it, go to tv and import existing tv shows. Choose `/data/media/tv` as per Jellyfin example above.
+Sonarr is next. Find the compose file and use it. You can find it under `http://<your-ip>:8989/`. Once it, go to tv and import existing tv shows. Choose `/data/media/tv` as per Jellyfin example above.
 
 ### Recyclarr - configuring both Sonarr and Radarr
 This section will give you a short overview of configurations for quality profiles in those applications. I highly recommend you read [TRaSH Guides](https://trash-guides.info/) to understand what this is all about.
