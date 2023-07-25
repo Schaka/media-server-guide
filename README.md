@@ -158,7 +158,7 @@ Indexers are not explained further in this part of the guide.
 Use the respective compose.yml to start the container. You'll find it under `http://<your-ip>:5055/`.  Don't be confused by the Plex account. Click "Use your Jellyfin account" at the bottom.
 - log in with the jellyfin account you created previously
 - use `http://jellyfin:8096/`
-- he email doesn't matter
+- the email doesn't matter
 - click Sync Libraries, choose Movies and TV Shows and click Continue
 - Add a Radarr server, name it Radarr and use `radarr` as the hostname
 - enter your API key
