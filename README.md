@@ -233,6 +233,51 @@ If you now search for content via Sonarr and Radarr, they will scan all of your 
 - [Usenet](trackers/usenet.md)
 - [Torrents](trackers/torrents.md)
 
+### Cross-seed
+This step is completely optional.
+Cross-seed is a great little application that automatically searches for your existing torrents on other trackers. If you're currently seeding a torrent anyway, why not make it available no every tracker you're on and build some free ratio (since you don't have to download anything) while you're at it?
+
+All you have to do is setup another Docker container with a static IP and have qbittorrent notify your cross-seed container when a torrent finishes. 
+A quick explanation regarding the `BT_backup` directory that *needs* to be mapped. This contains qbittorrent's backup `.torrent` files.
+Mapping of the `cross-seeds` directory is NOT strictly necessary. We are assigning the static IP, because our torrent client is behind a VPN and can't access cross-seed using the container name.
+
+You need to place `config.js` in your `/appdata/cross-seed` directory. 
+The following values need to be adjusted:
+- qbittorrentUrl
+- torznab
+
+You will find the torznab URLs for your trackers in Prowlarr. Open your "Indexers" page - you'll see an "RSS" button at the right of every tracker in the table.
+This is the URL you need. You don't need the `&extended=1&t=search` part.
+
+Now all that's left to do is make qbittorrent notify cross-seed of finished torrents so it can look for matches across all your trackers.
+Open qbitorrent's web GUI, open the settings, go to the "Downloads" section and scroll all the way to the bottom. Find "Run external program on torrent finished", enable it and set it to:
+`curl -XPOST http://172.18.0.115:2468/api/webhook --data-urlencode "name=%N"`. **Note:** The IP here (specifically .115) is the one we set as our static IP in the cross-seed Docker container.
+
+### qbit_manage
+This step is completely optional. It gives you a bit more control over your cross-seeded torrents, keeps your torrent folder clean.
+As an example - when Sonarr upgrades an episode or a season, the old torrent loses its hardlink as it becomes irrelevant - you now own a better quality copy. The old copy still remains seeded in your torrent folder, but Sonarr will NOT clean up once it hits the seeding requirements. It will get "stuck" there forever. qbit_manage can recognize this and clean up for you.
+It also allows you to set specific limits for each and every tracker. 
+
+In sonarr and radarr, you'll want to go to Settings -> Download Clients, activate Advanced Settings at the top left and select your qBittorrent client.
+Here, scroll down. While your category should remain `sonarr`, your post-import-category should be `tv`. For Radarr, it should be `radarr` and `movies`,
+
+For installation, you need to place `config.yml` in your `/appdata/qbit_manage` directory. 
+The following properties need to be changed:
+- qbit [host, user, pass] at the top
+- directory - if you use any additional ones to what's in this guide
+- cat - if you use any additional ones to what's in this guide
+- cat_change - according to the 2 above points
+- tracker, add any trackers you want to manage that aren't already on this list
+- share_limits - you need to move tracker tags around and into the categories you wish to keep them in
+
+**Note:** With this setup, any upgraded episode in Sonarr will have no hardlink, get tagged noHL in qbittorrent and then seeded for one month at most. If you wish to change this, you need to adjust the share_limit section for noHL.
+
+Additionally, I have chosen to cross-seed only according to my tracker rules. If you want to cross-seed indefinitely or until the file is cleared up in general, you need to move the share_limit section for cross-seed further up in priority. 
+Also be aware that only torrents without hardlinks are automatically cleaned up by qbit_manage. If you want other categories to be automatically cleaned up, set the `cleanup` property from false to true in the share_limit section. 
+
+Refer to the [full documentation](https://github.com/StuffAnThings/qbit_manage/wiki) for anything else.
+
+
 ## Post-Install
 First of all, congratulations. You've managed to make it past the hardest part. It's all smooth sailing from here on out. You should now have enough knowledge and understanding to run a second instance of Sonarr running on a different port just for Anime or run separate instances for 1080p and 4k, if you have plenty of storage but don't want to waste power on transcoding.
 My personal opinion is that 4k -> 1080p/720p transcodes using hardware acceleration are cheaper than separate libraries.
@@ -340,7 +385,6 @@ All your services should now be reachable via their respective `<name>.local`.
 - [Rarrnomore](https://github.com/Schaka/rarrnomore) - lets you avoid grabbing rar'd releases
 - [Unpackerr](https://github.com/Unpackerr/unpackerr) - lets you unrar releases automatically (if you have enough space to seed the rar and keep the content)
 - [Audiobookshelf](https://www.audiobookshelf.org/) - similar to Jellyfin, but for audiobooks
-- [cross-seed](https://github.com/cross-seed/cross-seed) - lets you automate seeding the same torrents on several trackers, if they were uploaded there
 - [autobrr](https://autobrr.com/) - lets you connect to your trackers' IRC to automatically grab new releases rather than waiting for RSS updates
 - [Komga](https://komga.org/) - similar to Jellyfin, for reading comic books and mangas
 - [homepage](https://github.com/benphelps/homepage) - lets you create a dashboard for all your services

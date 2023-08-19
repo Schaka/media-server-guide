@@ -1,0 +1,141 @@
+"use strict";
+// If you find yourself always using the same command-line flag, you can set
+// it here as a default.
+Object.defineProperty(exports, "__esModule", { value: true });
+module.exports = {
+    /*
+     * Pause at least this much in between each search. Higher is safer.
+     * 	It is not recommended to set this to less than 2 seconds.
+     */
+    delay: 30,
+    /**
+     * List of Torznab URLs.
+     * For Jackett, click "Copy RSS feed"
+     * For Prowlarr, click (i) and copy the Torznab Url, then append "?apikey=YOUR_PROWLARR_API_KEY"
+     * Wrap each URL in quotation marks, and separate them with commas.
+     */
+    torznab: [
+"http://prowlarr:9696/1/api?apikey=yourAPIkeyHERE",
+"http://prowlarr:9696/2/api?apikey=yourAPIkeyHERE",
+"http://prowlarr:9696/3/api?apikey=yourAPIkeyHERE",
+"http://prowlarr:9696/4/api?apikey=yourAPIkeyHERE",
+"http://prowlarr:9696/5/api?apikey=yourAPIkeyHERE"
+],
+    /**
+     * directory containing torrent files.
+     * For rtorrent, this is your session directory
+     * as configured in your .rtorrent.rc file.
+     * For deluge, this is ~/.config/deluge/state.
+     * Don't change this for Docker.
+     * Instead set the volume mapping on your docker container.
+     */
+    torrentDir: "/torrents",
+    /**
+     * where to put the torrent files that cross-seed finds for you.
+     * Don't change this for Docker.
+     * Instead set the volume mapping on your docker container.
+     */
+    outputDir: "/cross-seeds",
+    /**
+     * Whether to search for single episode torrents
+     */
+    includeEpisodes: true,
+    /**
+     * Include torrents which contain non-video files
+     * This option does not override includeEpisodes.
+     * To search for everything except episodes, use (includeEpisodes: false, includeNonVideos: true)
+     * To search for everything including episodes, use (includeEpisodes: true, includeNonVideos: true)
+     */
+    includeNonVideos: true,
+    /**
+     * fuzzy size match threshold
+     * decimal value (0.02 = 2%)
+     */
+    fuzzySizeThreshold: 0.02,
+    /**
+     * Exclude torrents first seen more than this long ago.
+     * Format: https://github.com/vercel/ms
+     * Examples:
+     * "10min"
+     * "2w"
+     * "3 days"
+     */
+    excludeOlder: "30d",
+    /**
+     * Exclude torrents which have been searched
+     * more recently than this long ago.
+     * Examples:
+     * "10min"
+     * "2w"
+     * "3 days"
+     */
+    excludeRecentSearch: "3 days",
+    /**
+     * can be either "save" or "inject".
+     * With "inject" you need to set up one of the below clients.
+     */
+    action: "inject",
+    /**
+     * The url of your rtorrent XMLRPC interface.
+     * Only relevant with action: "inject".
+     * Could be something like "http://username:password@localhost:1234/RPC2
+     */
+    rtorrentRpcUrl: undefined,
+    /**
+     * The url of your qBittorrent webui.
+     * Only relevant with action: "inject".
+     * Supply your username and password inside the url like so:
+     * "http://username:password@localhost:8080"
+     */
+    qbittorrentUrl: "http://admin:adminadmin@gluetun:8082",
+    /**
+     * The url of your Transmission RPC interface.
+     * Usually ends with "/transmission/rpc".
+     * Only relevant with action: "inject".
+     * Supply your username and password inside the url like so:
+     * "http://username:password@localhost:9091/transmission/rpc"
+     */
+    transmissionRpcUrl: undefined,
+    /**
+     * qBittorrent-specific
+     * Whether to inject using categories with the same save paths as your normal categories.
+     * Example: if you have a category called "Movies",
+     * this will automatically inject cross-seeds to "Movies.cross-seed"
+     */
+    duplicateCategories: true,
+    /**
+     * cross-seed will send POST requests to this url
+     * with a JSON payload of { title, body }.
+     * Conforms to the caronc/apprise REST API.
+     */
+    notificationWebhookUrl: undefined,
+    /**
+     * Listen on a custom port.
+     */
+    port: 2468,
+    /**
+     * Bind to a specific host address.
+     * Example: "127.0.0.1"
+     */
+    host: undefined,
+    /**
+     * Run rss scans on a schedule. Format: https://github.com/vercel/ms
+     * Set to undefined or null to disable. Minimum of 10 minutes.
+     * Examples:
+     * "10min"
+     * "2w"
+     * "3 days"
+     */
+    rssCadence: "20min",
+    /**
+     * Run searches on a schedule. Format: https://github.com/vercel/ms
+     * Set to undefined or null to disable. Minimum of 1 day.
+     * If you have RSS enabled, you won't need this to run often (2+ weeks recommended)
+     * Examples:
+     * "10min"
+     * "2w"
+     * "3 days"
+     */
+    searchCadence: "1d",
+};
+//# sourceMappingURL=config.template.docker.cjs.map

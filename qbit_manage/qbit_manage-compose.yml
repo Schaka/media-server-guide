@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+  qbit_manage:
+    container_name: qbit_manage
+    image: bobokun/qbit_manage
+    volumes:
+      - /srv/mergerfs/config/appdata/qbit_manage/:/config
+      - /srv/mergerfs/config/appdata/qbittorrent/qBittorrent/BT_backup/:/torrent-files # where qbittorrent keeps its .torrent files
+      - /share_media/:/data/ # exact copy of where qbittorrent points for its "data" - contains torrents/tv directories etc
+      - /srv/mergerfs/config/appdata/qbittorrent/:/qbittorrent/:ro # points to your qbittorrent docker config directory
+    environment:
+      - PUID=998
+      - PGID=100
+      - QBT_RUN=false
+      - QBT_SCHEDULE=30
+      - QBT_CONFIG=config.yml
+      - QBT_LOGFILE=activity.log
+      - QBT_CROSS_SEED=false
+      - QBT_RECHECK=true
+      - QBT_CAT_UPDATE=true
+      - QBT_TAG_UPDATE=true
+      - QBT_REM_UNREGISTERED=true
+      - QBT_REM_ORPHANED=true
+      - QBT_TAG_TRACKER_ERROR=true
+      - QBT_TAG_NOHARDLINKS=false
+      - QBT_SHARE_LIMITS=true
+      - QBT_SKIP_CLEANUP=false
+      - QBT_DRY_RUN=false
+      - QBT_LOG_LEVEL=INFO
+      - QBT_DIVIDER==
+      - QBT_WIDTH=100
+    ports:
+     - 2222:2222 # fake port to connect to network
+    networks:
+      - htpc
+    restart: unless-stopped
+
+networks:
+  htpc:
+    external: true
