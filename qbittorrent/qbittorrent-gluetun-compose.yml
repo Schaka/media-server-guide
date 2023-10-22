@@ -2,7 +2,8 @@
 version: "2.1"
 services:
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    # latest version has a memory leak on Debian/Ubuntu by the looks of it
+    image: lscr.io/linuxserver/qbittorrent:14.3.9
     container_name: qbittorrent
     network_mode: "container:gluetun"
     environment:
